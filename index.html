@@ -595,6 +595,111 @@
       font-family: inherit;
     }
 
+    /* ── Order report ──────────────────────── */
+
+    .report-panel {
+      margin-bottom: 20px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      animation: slideIn 0.3s ease;
+    }
+
+    .report-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .report-head h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    .report-dismiss {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 2px 6px;
+    }
+
+    .report-dismiss:hover { color: var(--danger); }
+
+    .report-sub {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .report-rows { margin-top: 10px; }
+
+    .report-row {
+      display: flex;
+      gap: 9px;
+      padding: 6px 0;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.85rem;
+      align-items: baseline;
+    }
+
+    .report-dot {
+      flex-shrink: 0;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      position: relative;
+      top: -1px;
+    }
+
+    .report-dot.added { background: var(--primary); }
+    .report-dot.partial { background: var(--accent); }
+    .report-dot.unavailable, .report-dot.failed { background: var(--danger); }
+    .report-dot.unknown { background: var(--text-muted); }
+
+    .report-row .r-name { font-weight: 600; }
+
+    .report-row .r-detail {
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+    }
+
+    .report-actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .report-wait {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+    }
+
+    .report-wait .pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.2s ease infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.35; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
     /* ── Empty state ───────────────────────── */
 
     .empty-state {
@@ -762,6 +867,8 @@
       <a class="bookmarklet-link" id="bookmarkletLink" href="#">Add Groceries</a>
       <button class="setup-dismiss" id="setupDismiss">Got it, hide this</button>
     </div>
+
+    <div class="report-panel" id="reportPanel" hidden></div>
 
     <div class="item-list" id="itemList"></div>
 
@@ -960,22 +1067,127 @@
 
     // ── Cart ──────────────────────────────────
 
-    const STORE_PARAMS = {
-      wholefoods: 'almBrandId=VUZHIFdob2xlIEZvb2Rz',
-      fresh: 'almBrandId=QW1hem9uIEZyZXNo'
-    };
-
     function submitCart(store) {
       const sel = items.filter(i => i.checked && i.store === store);
       if (!sel.length) return;
 
       const encoded = sel.map(i => `${i.asin}:${i.quantity}:${i.store || 'wholefoods'}`).join(',');
-      const unnamed = items.filter(i => i.name === i.asin || !i.image).map(i => i.asin);
-      const hash = `mlab-groceries=${encoded}` + (unnamed.length ? `&mlab-names=${unnamed.join(',')}` : '');
-      const url = `https://www.amazon.com/#${hash}`;
+      const url = `https://www.amazon.com/#mlab-groceries=${encoded}`;
+
+      orderRun = { state: 'waiting', store, total: sel.length, startedAt: Date.now() };
+      renderReport();
+      clearTimeout(waitTimer);
+      waitTimer = setTimeout(() => {
+        if (orderRun && orderRun.state === 'waiting') { orderRun.stalled = true; renderReport(); }
+      }, 45000);
 
       window.open(url, '_blank');
       toast(`Opened Amazon — click your bookmark!`, 4000);
+    }
+
+    // ── Order report ──────────────────────────
+
+    let orderRun = null;
+    let waitTimer = null;
+
+    const STATUS_LABEL = {
+      added: 'added', partial: 'partial', unavailable: 'unavailable',
+      failed: 'failed', unknown: 'unverified'
+    };
+
+    function receiveProgress(d) {
+      if (!d || !d.total) return;
+      orderRun = { ...(orderRun || {}), state: 'running', current: d.current, total: d.total, asin: d.asin };
+      renderReport();
+    }
+
+    function receiveReport(d) {
+      if (!d || !Array.isArray(d.results)) return;
+      clearTimeout(waitTimer);
+      if (currentEngineVersion && d.version && d.version !== currentEngineVersion) {
+        document.getElementById('setupBanner').style.display = '';
+        toast('Your bookmark ran an older engine — drag the button to your bookmarks bar again to update it', 6000);
+      }
+      orderRun = { state: 'done', results: d.results, diagnostics: d.diagnostics || '', finishedAt: Date.now() };
+      try { localStorage.setItem('mlab-last-report', JSON.stringify(orderRun)); } catch {}
+      // Also save to disk (last-diagnostics.json) so Claude can read the logs
+      // directly — no copy-pasting needed.
+      if (orderRun.diagnostics) fetch('/diag', { method: 'POST', body: orderRun.diagnostics }).catch(() => {});
+
+      // Opportunistic sync: the run fetched every product page anyway.
+      receiveNames({ names: d.names, images: d.images });
+
+      // Uncheck what made it into the cart, so what's left checked = problems.
+      let unchecked = 0;
+      for (const r of d.results) {
+        if (r.status === 'added') {
+          const item = items.find(i => i.asin === r.asin);
+          if (item && item.checked) { item.checked = false; unchecked++; }
+        }
+      }
+      if (unchecked) { save(); render(); }
+      renderReport();
+    }
+
+    function dismissReport() {
+      orderRun = null;
+      clearTimeout(waitTimer);
+      try { localStorage.removeItem('mlab-last-report'); } catch {}
+      renderReport();
+    }
+
+    function copyDiagnostics() {
+      if (!orderRun || !orderRun.diagnostics) return;
+      navigator.clipboard.writeText(orderRun.diagnostics).then(
+        () => toast('Diagnostics copied — paste them to Claude'),
+        () => toast('Copy failed — diagnostics are in localStorage under mlab-last-report')
+      );
+    }
+
+    function renderReport() {
+      const $panel = document.getElementById('reportPanel');
+      if (!orderRun) { $panel.hidden = true; return; }
+      $panel.hidden = false;
+
+      let html = `<div class="report-head"><h3>Order report</h3>
+        <button class="report-dismiss" data-report-dismiss title="Dismiss">✕</button></div>`;
+
+      if (orderRun.state === 'waiting') {
+        html += `<div class="report-wait"><span class="pulse"></span>
+          Amazon tab opened — click your <strong>&nbsp;Add Groceries&nbsp;</strong> bookmark there.</div>`;
+        if (orderRun.stalled) {
+          html += `<div class="report-sub">Still waiting… Is the Amazon tab open? Is the bookmark on your bar? (One-time setup above.)</div>`;
+        }
+      } else if (orderRun.state === 'running') {
+        html += `<div class="report-wait"><span class="pulse"></span>
+          Adding ${orderRun.current}/${orderRun.total}…</div>`;
+      } else {
+        const rs = orderRun.results;
+        const added = rs.filter(r => r.status === 'added').length;
+        const counts = {};
+        rs.forEach(r => { if (r.status !== 'added') counts[r.status] = (counts[r.status] || 0) + 1; });
+        const extras = Object.entries(counts).map(([s, n]) => `${n} ${STATUS_LABEL[s] || s}`).join(' · ');
+        html += `<div class="report-sub"><strong>${added}/${rs.length} added to cart</strong>${extras ? ' · ' + extras : ''}</div>`;
+        html += `<div class="report-rows">`;
+        for (const r of rs) {
+          const item = items.find(i => i.asin === r.asin);
+          const name = (item && item.name !== item.asin ? item.name : r.name) || r.asin;
+          html += `<div class="report-row">
+            <span class="report-dot ${r.status}"></span>
+            <span style="flex:1;min-width:0">
+              <span class="r-name">${esc(name.substring(0, 70))}</span>
+              ${r.qty > 1 ? `<span class="item-asin">×${r.qty}</span>` : ''}
+              ${r.detail ? `<div class="r-detail">${esc(r.detail)}</div>` : ''}
+            </span>
+          </div>`;
+        }
+        html += `</div><div class="report-actions">`;
+        if (orderRun.diagnostics) {
+          html += `<button class="tool-btn" data-report-copy>Copy diagnostics</button>`;
+        }
+        html += `</div>`;
+      }
+      $panel.innerHTML = html;
     }
 
     function fetchNames() {
@@ -1005,195 +1217,27 @@
       if (updated) { save(); render(); toast(`Updated ${updated} item${updated !== 1 ? 's' : ''}`); }
     }
 
-    function buildBookmarklet() {
-      const code = `void(async function(){` +
-        // Order import mode: scrape ASINs from the current page
-        `if(location.hash.indexOf('mlab-import')>=0||location.href.indexOf('mlab-import')>=0){` +
-          `var links=document.querySelectorAll('a[href*="/dp/"],a[href*="/gp/product/"]');` +
-          `var found={};` +
-          `links.forEach(function(a){` +
-            `var m=a.href.match(/[/](?:dp|gp[/]product)[/]([A-Z0-9]{10})/i);` +
-            `if(m&&!found[m[1].toUpperCase()]){` +
-              `var asin=m[1].toUpperCase();` +
-              `var name=a.textContent.trim().substring(0,120)||asin;` +
-              `if(name.length<3||/^(shop|buy|view|see)/i.test(name))name=asin;` +
-              `var img=a.closest('tr,div,[class*=item],[class*=order]');` +
-              `var imgEl=img&&img.querySelector('img[src*=media-amazon]');` +
-              `found[asin]={name:name,image:imgEl?imgEl.src:''};` +
-            `}` +
-          `});` +
-          `var items=Object.entries(found).map(function(e){return{asin:e[0],name:e[1].name,image:e[1].image}});` +
-          `if(items.length){` +
-            `try{window.opener.postMessage({type:'mlab-import',items:items},'*')}catch(e){}` +
-            `alert('Found '+items.length+' item(s). They have been sent to your grocery list.');` +
-          `}else{alert('No products found on this page.')}` +
-          `return;` +
-        `}` +
-        // Parse cart items and name-only items from hash
-        `var h=location.hash;` +
-        `var cm=h.match(/mlab-groceries=([^&]+)/);` +
-        `var nm=h.match(/mlab-names=([^&]+)/);` +
-        `var ct=cm?decodeURIComponent(cm[1]):'';` +
-        `var nt=nm?decodeURIComponent(nm[1]):'';` +
-        `if(!ct&&!nt){ct=prompt('Paste ASIN:QTY list (comma-separated):')||''}` +
-        `var storeParams={wholefoods:'almBrandId=VUZHIFdob2xlIEZvb2Rz',fresh:'almBrandId=QW1hem9uIEZyZXNo'};` +
-        `var cartItems=ct?ct.split(',').map(function(s){var p=s.trim().split(':');return{a:p[0],q:parseInt(p[1])||1,store:p[2]||'wholefoods'}}).filter(function(i){return/^[A-Z0-9]{10}$/i.test(i.a)}):[];` +
-        `var nameAsins=nt?nt.split(',').filter(function(a){return/^[A-Z0-9]{10}$/i.test(a.trim())}).map(function(a){return a.trim()}):[];` +
-        `if(!cartItems.length&&!nameAsins.length){alert('No valid ASINs found.');return}` +
-        // Progress bar
-        `var bar=document.createElement('div');` +
-        `bar.style.cssText='position:fixed;top:0;left:0;right:0;z-index:999999;background:#232f3e;color:#fff;padding:14px 20px;font:15px/1.4 -apple-system,sans-serif;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.3)';` +
-        `document.body.appendChild(bar);` +
-        `var names={},images={};` +
-        `var allNameAsins=nameAsins.slice();` +
-        `cartItems.forEach(function(it){if(allNameAsins.indexOf(it.a)<0)allNameAsins.push(it.a)});` +
-        `if(allNameAsins.length){` +
-          `async function fetchInfo(asin){` +
-            `try{` +
-              `var r=await fetch('/dp/'+asin,{credentials:'include'});` +
-              `if(!r.ok)return;` +
-              `var txt=await r.text();` +
-              `var m=txt.match(/<title[^>]*>([^<]+)/i);` +
-              `if(m){var pn=m[1].replace(/\\s*[:\\-|]+\\s*Amazon\\.com.*$/i,'').replace(/^Amazon\\.com\\s*[:\\-|]+\\s*/i,'').trim();if(pn&&pn.length>2)names[asin]=pn}` +
-              `var im=txt.match(/og:image[^>]*content=["']([^"']+)/i)||txt.match(/data-a-dynamic-image=["'][{]"([^"]+)/i)||txt.match(/"hiRes":"([^"]+)"/i)||txt.match(/"large":"([^"]+)"/i)||txt.match(/id=["']landingImage["'][^>]*src=["']([^"']+)/i)||txt.match(/data-old-hires=["']([^"']+)/i);` +
-              `if(im&&im[1])images[asin]=im[1];` +
-            `}catch(e){}` +
-          `}` +
-          `for(var j=0;j<allNameAsins.length;j+=4){` +
-            `bar.textContent='Fetching info '+(Math.min(j+4,allNameAsins.length))+'/'+allNameAsins.length+'...';` +
-            `await Promise.all(allNameAsins.slice(j,j+4).map(fetchInfo));` +
-          `}` +
-          `try{if(window.opener)window.opener.postMessage({type:'mlab-names',names:names,images:images},'*')}catch(e){}` +
-        `}` +
-        // Add cart items
-        `var n=cartItems.length,ok=0,diag=[];` +
-        `if(n){` +
-          `function dpUrl(it){var sp=storeParams[it.store];return'/dp/'+it.a+(sp?'?'+sp+'&fpw=alm':'')}` +
-          `var w=window.open(dpUrl(cartItems[0]),'mlab-shop');` +
-          `if(!w){bar.textContent='Please allow popups for Amazon.';return}` +
-          `var btnSel='[id^=\"add-to-cart-button\"],[name=\"submit.add-to-cart\"],input[name=\"submit.addToCart\"],[data-action=\"fresh-add-to-cart\"] input[type=\"submit\"],[id*=\"freshAddToCart\"] input,#grocery\\\\.buybox\\\\.addToCart input[type=\"submit\"]';` +
-          `var limitRe=/limit|maximum|exceed|can.t add|cannot add|restricted|not available in the requested quantity/i;` +
-          `var limitSel='.a-alert-content,.a-box-alert,#huc-v2-order-row-messages,.a-alert.a-alert-error,.a-popover-modal .a-box-inner,#percolate-ui-ilm_div,[class*=\"qs-widget\"] .a-alert,.qs-widget-error';` +
-          `function waitFor(fn,ms){return new Promise(function(resolve){var t=0;var p=setInterval(function(){t+=200;if(w.closed){clearInterval(p);resolve(null);return}try{var r=fn();if(r){clearInterval(p);resolve(r)}}catch(e){}if(t>=ms){clearInterval(p);resolve(null)}},200)})}` +
-          `function getDoc(){try{return w.document}catch(e){return null}}` +
-          `function getItemName(asin){try{var d=getDoc();if(d){var t=d.title.replace(/Amazon\\.com[^]*/i,'').replace(/[:\\-|]+\\s*$/,'').trim();if(t)return t}}catch(e){}return asin}` +
-          `function checkLimit(d){try{var al=d.querySelectorAll(limitSel);for(var k=0;k<al.length;k++){if(limitRe.test(al[k].textContent))return al[k].textContent.trim().substring(0,120)}}catch(e){}return null}` +
-          // Wait for navigation to invalidate the old page
-          `async function waitForNewPage(){` +
-            // Wait for document to become inaccessible (navigation started) then accessible again (new page loaded)
-            `var oldTitle='';try{oldTitle=w.document.title}catch(e){}` +
-            `await new Promise(function(r){setTimeout(r,500)});` +
-            // Now wait for document to become accessible with a different title or fresh content
-            `await waitFor(function(){var d=getDoc();if(!d)return false;try{if(d.readyState==='loading')return false}catch(e){}return true},10000);` +
-          `}` +
-          // Set quantity via the Fresh/WF qs-widget dropdown
-          `async function setQsQty(d,qty){` +
-            `try{` +
-              `var qsBtn=d.querySelector('[id*=\"qs-widget-button\"][id*=\"announce\"]');` +
-              `if(!qsBtn)return false;` +
-              `qsBtn.click();` +
-              `var ul=null,opts=null;` +
-              `for(var wt=0;wt<10;wt++){` +
-                `await new Promise(function(r){setTimeout(r,200)});` +
-                `ul=d.querySelector('[id*=\"qs-widget-dropdown-unorderedlist\"]');` +
-                `if(ul){opts=ul.querySelectorAll('li[role=\"option\"],li');if(opts.length)break}` +
-              `}` +
-              `if(!opts||!opts.length){try{qsBtn.click()}catch(e){}return false}` +
-              `var matched=false;` +
-              `for(var o=0;o<opts.length;o++){` +
-                `var optText=opts[o].textContent.trim();` +
-                `if(optText===String(qty)||(qty>=10&&/10\\+/.test(optText))){` +
-                  `opts[o].click();matched=true;break` +
-                `}` +
-              `}` +
-              `if(!matched){try{qsBtn.click()}catch(e){}return false}` +
-              `await new Promise(function(r){setTimeout(r,400)});` +
-              `if(qty>=10){` +
-                `var ti=d.querySelector('input.qs-widget-text-input');` +
-                `if(ti){` +
-                  `ti.value=String(qty);` +
-                  `ti.dispatchEvent(new w.Event('input',{bubbles:true}));` +
-                  `ti.dispatchEvent(new w.Event('change',{bubbles:true}));` +
-                  `await new Promise(function(r){setTimeout(r,200)});` +
-                  `var upd=d.querySelector('[id*=\"qs-widget-text-input-updatelink\"] button');` +
-                  `if(upd){upd.click();await new Promise(function(r){setTimeout(r,500)})}` +
-                `}` +
-              `}` +
-              `return true;` +
-            `}catch(e){return false}` +
-          `}` +
-          `for(var i=0;i<n;i++){` +
-            `bar.textContent='Adding '+(i+1)+'/'+n+'...';` +
-            // Navigate popup, re-open if closed
-            `try{` +
-              `if(w.closed){w=window.open(dpUrl(cartItems[i]),'mlab-shop');if(!w){diag.push(cartItems[i].a+': popup blocked');continue}}` +
-              `else if(i>0){w.location=dpUrl(cartItems[i])}` +
-            `}catch(e){try{w=window.open(dpUrl(cartItems[i]),'mlab-shop')}catch(e2){diag.push(cartItems[i].a+': popup error');continue}}` +
-            // Wait for navigation to complete (prevents clicking stale page buttons)
-            `if(i>0)await waitForNewPage();` +
-            // Wait for ATC button or unavailable message
-            `var btn=await waitFor(function(){var d=getDoc();if(!d)return false;` +
-              `var ua=d.querySelector('#availability,.a-text-center .a-size-base-plus.a-text-bold');if(ua&&/currently unavailable/i.test(ua.textContent))return'unavail';` +
-              `return d.querySelector(btnSel)},12000);` +
-            `if(btn==='unavail'){diag.push(getItemName(cartItems[i].a)+': unavailable');continue}` +
-            `if(!btn){diag.push(cartItems[i].a+': page failed to load');continue}` +
-            `var d=getDoc();` +
-            `if(!d){diag.push(cartItems[i].a+': lost popup window');continue}` +
-            `var qty=cartItems[i].q;` +
-            `var itemOk=true;` +
-            // Try to set quantity before clicking ATC (avoids unreliable multi-click)
-            `var qtySet=false;` +
-            `var qtyIn=d.querySelector('[name=\"quantity\"]')||d.querySelector('#quantity');` +
-            `if(qtyIn){qtyIn.value=String(qty);qtyIn.dispatchEvent(new w.Event('change',{bubbles:true}));qtySet=true}` +
-            `if(!qtySet&&qty>1){qtySet=await setQsQty(d,qty)}` +
-            `var clicks=qtySet?1:qty;` +
-            `for(var c=0;c<clicks;c++){` +
-              `d=getDoc();if(!d){diag.push(getItemName(cartItems[i].a)+': lost window mid-add');itemOk=false;break}` +
-              `var cc0='';try{var cce=d.querySelector('#nav-cart-count');cc0=cce?cce.textContent.trim():''}catch(e){}` +
-              `var curBtn=d.querySelector(btnSel);` +
-              `if(!curBtn){if(c>0)break;diag.push(getItemName(cartItems[i].a)+': button disappeared');itemOk=false;break}` +
-              `curBtn.click();` +
-              // Wait for cart count change or limit/error
-              `var wr=await waitFor(function(){` +
-                `var dd=getDoc();if(!dd)return'lost';` +
-                `var lm=checkLimit(dd);if(lm)return'limit:'+lm;` +
-                `try{var cce2=dd.querySelector('#nav-cart-count');if(cce2&&cce2.textContent.trim()!==cc0)return true}catch(e){}` +
-                `return false` +
-              `},6000);` +
-              `if(wr==='lost'){diag.push(getItemName(cartItems[i].a)+': lost window');itemOk=false;break}` +
-              `if(typeof wr==='string'&&wr.indexOf('limit:')===0){diag.push(getItemName(cartItems[i].a)+': '+wr.substring(6));itemOk=false;break}` +
-              // If cart count didn't change, still continue (Fresh AJAX may have succeeded without visible count update)
-              `if(!wr&&clicks>1&&c<clicks-1){` +
-                `try{w.location=dpUrl(cartItems[i])}catch(e){}` +
-                `await waitForNewPage();` +
-                `var rb=await waitFor(function(){var dd=getDoc();return dd&&dd.querySelector(btnSel)},10000);` +
-                `if(!rb){diag.push(getItemName(cartItems[i].a)+': reload failed after click '+(c+1));itemOk=false;break}` +
-              `}` +
-            `}` +
-            `if(itemOk)ok++;` +
-            `bar.textContent=(i+1)+'/'+n+' done ('+ok+' added)';` +
-          `}` +
-          `try{w.close()}catch(e){}` +
-        `}` +
-        // Results — always go to WF cart, show diagnostics as alert first
-        `var wfCart='https://www.amazon.com/cart/localmarket?ref_=ox_mcp_alm_wf_gtc_dsk_us&almBrandId=VUZHIFdob2xlIEZvb2Rz';` +
-        `if(n&&diag.length){` +
-          `bar.style.background='#c0956c';` +
-          `bar.innerHTML='<b>Added '+ok+'/'+n+'</b>. Opening cart...';` +
-          `alert('Added '+ok+'/'+n+' items.\\n\\nWarnings:\\n\\n'+diag.join('\\n\\n'));` +
-          `location.href=wfCart;` +
-        `}else if(n){` +
-          `bar.innerHTML='<b>Done!</b> Added all '+n+' items. Opening cart...';` +
-          `bar.style.background='#2d6a4f';` +
-          `setTimeout(function(){location.href=wfCart},1000)` +
-        `}else{` +
-          `bar.innerHTML='<b>Done!</b> Named '+Object.keys(names).length+' items. Closing...';` +
-          `bar.style.background='#2d6a4f';` +
-          `setTimeout(function(){bar.remove();location.hash='';window.close()},2000)` +
-        `}` +
-      `})()`;
-      return 'javascript:' + code;
+    // The dragged bookmark IS the engine: a base64 snapshot of bookmarklet.js
+    // taken when this page loaded. It deliberately does NOT script-load from
+    // localhost at click time — whether amazon's CSP blocks that varies by
+    // page, and when it succeeds the code runs in the page's global scope,
+    // where amazon's own globals (it has one literally named `P`) collide.
+    // The eval below runs inside a function, so the engine stays scoped.
+    // The report's version handshake nags to re-drag when the snapshot is stale.
+    let currentEngineVersion = '';
+
+    async function buildBookmarklet() {
+      try {
+        const src = await (await fetch('/bookmarklet.js')).text();
+        currentEngineVersion = (src.match(/MLAB_VERSION = ["']([^"']+)["']/) || [])[1] || '';
+        const b64 = btoa(unescape(encodeURIComponent(src)));
+        return "javascript:void(function(){try{eval(decodeURIComponent(escape(atob('" + b64 +
+          "'))))}catch(e){alert('M lab Groceries engine crashed: '+e)}})()";
+      } catch {
+        return "javascript:alert('M lab Groceries: could not embed the engine - reload the app page and re-drag this button.')";
+      }
     }
+
 
     // ── Import / Export ───────────────────────
 
@@ -1383,6 +1427,11 @@
         if (btn) submitCart(btn.dataset.cartStore);
       });
 
+      document.getElementById('reportPanel').addEventListener('click', e => {
+        if (e.target.closest('[data-report-dismiss]')) dismissReport();
+        else if (e.target.closest('[data-report-copy]')) copyDiagnostics();
+      });
+
       document.getElementById('saveBtn').addEventListener('click', saveJSON);
       document.getElementById('fetchNamesBtn').addEventListener('click', fetchNames);
       document.getElementById('selectStarred').addEventListener('click', () => {
@@ -1444,9 +1493,18 @@
       $toast = document.getElementById('toast');
 
       window.addEventListener('message', e => {
-        if (e.data && e.data.type === 'mlab-names') receiveNames(e.data);
-        if (e.data && e.data.type === 'mlab-import') receiveImport(e.data);
+        if (!e.data) return;
+        if (e.data.type === 'mlab-names') receiveNames(e.data);
+        if (e.data.type === 'mlab-import') receiveImport(e.data);
+        if (e.data.type === 'mlab-progress') receiveProgress(e.data);
+        if (e.data.type === 'mlab-report') receiveReport(e.data);
       });
+
+      try {
+        const lastReport = localStorage.getItem('mlab-last-report');
+        if (lastReport) orderRun = JSON.parse(lastReport);
+      } catch {}
+      renderReport();
 
       items = load();
       if (!items.length) {
@@ -1465,7 +1523,9 @@
       render();
       setup();
 
-      document.getElementById('bookmarkletLink').href = buildBookmarklet();
+      buildBookmarklet().then(href => {
+        document.getElementById('bookmarkletLink').href = href;
+      });
 
       document.getElementById('setupDismiss').addEventListener('click', () => {
         document.getElementById('setupBanner').style.display = 'none';

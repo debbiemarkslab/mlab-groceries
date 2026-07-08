@@ -1,0 +1,7 @@
+# Root files/folders
+/last-diagnostics.json
+/node_modules/
+/.claude/
+
+# Anywhere files/folders
+.DS_Store

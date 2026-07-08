@@ -7,9 +7,11 @@
 ```bash
 git clone git@github.com:debbiemarkslab/mlab-groceries.git
 cd mlab-groceries
-node server.js
+bun start
 # Open http://localhost:8080
 ```
+
+Development: `bun test` runs the test suite, `bun run check` lints/formats with Biome.
 
 ## Adding groceries
 
@@ -31,10 +33,10 @@ Fork the repo, add your items to `groceries.json`, and open a pull request.
 
 ## Order groceries
 
-0. Drag the **Add Groceries** bookmarklet from page to your bookmarks bar.
-1. Select items and click "Add to Cart"
-2. Click the "Add Groceries" bookmarklet (opens each product on Amazon/Whole Foods and adds it to cart)
+0. One-time setup: drag the **Add Groceries** bookmarklet to your bookmarks bar. The bookmark embeds the engine (`bookmarklet.js`), so it works in any browser. After an engine update, the app's order report will tell you to re-drag the button.
+1. Select items and click "Add to Cart" — a signed-in Amazon tab opens.
+2. Click the **Add Groceries** bookmarklet once in that tab.
 
-When done, the Whole Foods cart will be open and ready for the order to be placed.
+A per-item report (added / unavailable / quantity-capped / failed) appears back in the app, and the Whole Foods cart opens for checkout.
 
 
