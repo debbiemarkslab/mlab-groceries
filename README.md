@@ -1,11 +1,11 @@
 <h3 align="center">
-  <img src="https://raw.githubusercontent.com/murfalo/mlab-groceries/refs/heads/main/logo.png" alt="M'lab Groceries" width="256">
+  <img src="https://raw.githubusercontent.com/debbiemarkslab/mlab-groceries/refs/heads/main/logo.png" alt="M'lab Groceries" width="256">
 </h3>
 
 ## Get started
 
 ```bash
-git clone git@github.com:murfalo/mlab-groceries.git
+git clone git@github.com:debbiemarkslab/mlab-groceries.git
 cd mlab-groceries
 node server.js
 # Open http://localhost:8080
