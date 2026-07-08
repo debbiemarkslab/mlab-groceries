@@ -1,383 +1,453 @@
 {
   "name": "M'lab Groceries",
-  "exported": "2026-03-26T22:23:46.982Z",
   "items": [
     {
+      "asin": "B004T38OCA",
+      "name": "Theo Orange Organic Dark Chocolate Bar, 70% Cacao, 1 Bar | Vegan, Fair Trade : Chocolate Candy : Grocery &amp; Gourmet Food",
+      "quantity": 2,
+      "store": "wholefoods",
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/71UPkBhTKZL._SL1500_.jpg"
+    },
+    {
       "asin": "B0078DS86U",
-      "name": "Love Crunch Organic Dark Chocolate &amp; Red Berries Granola, 11.5 oz (Pack of 1), Non-GMO, Fair Trade, by Nature&#x27;s Path: Granola Breakfast Cereals",
+      "name": "Love Crunch Organic Dark Chocolate &amp; Red Berries Granola, 11.5 oz (Pack of 1), Vegan, Non-GMO, Fair Trade, by Nature&#x27;s Path: Granola Breakfast Cereals",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/71rhpRqYEzL._SL1500_.jpg"
     },
     {
       "asin": "B01GV64Q2E",
       "name": "Icelandic Provisions, Wild Blueberry and Bilberry Thick and Creamy SKYR, 5.3 Ounce : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81w78LGP4sL._SL1500_.jpg"
     },
     {
       "asin": "B0DP2J9L5M",
       "name": "Bear, Fruit Bites Tropical, 3.5 Ounce : Grocery &amp; Gourmet Food",
-      "quantity": 1,
-      "store": "wholefoods"
+      "quantity": 2,
+      "store": "wholefoods",
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/61cZ7Yf4AjL._SL1000_.jpg"
     },
     {
       "asin": "B01GV64R0K",
       "name": "Icelandic Provisions, Peach and Cloudberry Thick and Creamy SKYR, 5.3 Ounce : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81S8boHPqbL._SL1500_.jpg"
     },
     {
       "asin": "B0DJ3PBWBV",
       "name": "Sanpellegrino CIAO! Peach Sparkling Water, Low-Calorie Italian Sparkling Water with Real Fruit Juices, 0g Added Sugar, 6-Pack : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/813OAKJA2zL._SL1500_.jpg"
     },
     {
       "asin": "B00FTB14BY",
       "name": "Belgioioso, Fresh Mozzarella Snacking Cheese, 6 oz : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81CagwXGeJL._SL1500_.jpg"
     },
     {
       "asin": "B07X4GF4ZN",
       "name": "Icelandic Provisions, Yogurt Skyr Whole Milk Vanilla Bean, 4.4 Ounce : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/61wkLGfM0QL._SL1004_.jpg"
     },
     {
       "asin": "B0DJ3P7TWQ",
       "name": "Sanpellegrino CIAO! Lime Sparkling Water, Low-Calorie Italian Sparkling Water with Real Fruit Juices, 0g Added Sugar, 6-Pack : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81cTyoxNbZL._SL1500_.jpg"
     },
     {
       "asin": "B004SI9KL0",
       "name": "Endangered Species Chocolate Bar Grizzly Dark Raspberry, 3 oz : Candy And Chocolate Bars : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/61h+thky2OL._SL1500_.jpg"
     },
     {
       "asin": "B081KJD394",
       "name": "Horizon Organic Growing Years Whole Milk, High Vitamin D Organic Milk for Growing Kids with DHA Omega-3, Choline, and Prebiotics, 59 fl oz Carton​ : Everything Else",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/71p6jOB2BaL._SL1500_.jpg"
     },
     {
       "asin": "B00M8ZEJUW",
       "name": "Chobani® Non-Fat Greek Yogurt Strawberry on the Bottom 5.3oz 4-pack : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81rsQqOLr3L._SL1500_.jpg"
     },
     {
       "asin": "B0BR36GW5C",
       "name": "Kerrygold Grass-fed Aged Irish Cheddar Cheese Sticks, 6 OZ : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/71WLUrP3tyL._SL1500_.jpg"
     },
     {
       "asin": "B07SX36KZZ",
       "name": "Oatly Full Fat Oat Milk, 64 Fl Oz : Grocery &amp; Gourmet Food",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/91wk4kND5aL._SL1500_.jpg"
     },
     {
       "asin": "B074H7NP9Q",
       "name": "365 by Whole Foods Market, Hard Cooked Medium Grade A Eggs, 6 ct : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/614pgd5MMBL._SL1000_.jpg"
     },
     {
       "asin": "B0DJ3LGG7F",
       "name": "Sanpellegrino CIAO Blood Orange Sparkling Water, Low-Calorie Italian Sparkling Water with Real Fruit Juices, 0g Added Sugar, 6-Pack : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81D5+ZJybUL._SL1500_.jpg"
     },
     {
       "asin": "B08TQ9F2G8",
       "name": "365 by Whole Foods Market, Almond Butter Filled Pretzel Nuggets, 12 Ounce",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/71t2NKXXw2L._SL1500_.jpg"
     },
     {
       "asin": "B0DJ3NL5TR",
       "name": "Sanpellegrino CIAO! Cherry Sparkling Water, Low-Calorie Italian Sparkling Water with Real Fruit Juices, 0g Added Sugar, 6-Pack : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81ssdolmCPL._SL1500_.jpg"
     },
     {
       "asin": "B0DYK3CSNF",
       "name": "PRODUCE Organic Cosmic Crisp Apples Bag, 48 OZ : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/41wwrJn-DUL.jpg"
     },
     {
       "asin": "B078HNGYKV",
-      "name": "Bear Yoyo Fruit Roll Strwbry Multpk 3.5 OZ : Grocery &amp; Gourmet Food",
-      "quantity": 1,
+      "name": "BEAR Strawberry Yo Yo&#x27;s Fruit Rolls 5 Count, .7 OZ : Grocery &amp; Gourmet Food",
+      "quantity": 2,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/61QaBM5WU7L._SL1309_.jpg"
     },
     {
       "asin": "B0030MV5AE",
       "name": "Theo Pure Organic Dark Chocolate Bar, 70% Cacao, 1 Bar | Vegan, Fair Trade : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/71ny2+J-tQL._SL1500_.jpg"
     },
     {
       "asin": "B07FWC98VB",
       "name": "365 by Whole Foods Market, Sparkling Ginger Water 12Pk Cans, 12 Fl Oz : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/51n23ZptoiL._SL1200_.jpg"
     },
     {
       "asin": "B074H64QP9",
       "name": "365 by Whole Foods Market, Organic White Cheddar Popcorn, 4 Ounce",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/51YVXtZctiL._SL1000_.jpg"
     },
     {
       "asin": "B00FZHEGGW",
       "name": "FAGE 35.3 TOTAL 2% GRK STRND 32 Ounce : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/71F6zCdSFmL._SL1500_.jpg"
     },
     {
       "asin": "B073ZJT6KZ",
       "name": "Polar Beverages Tart Cherry Limeade Seltzer&#x27;ade, 8 pk, 12 fl oz : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81S4bR-W9UL._SL1500_.jpg"
     },
     {
       "asin": "B01M1CV4WF",
       "name": "LesserEvil Popcorn, Himalayan Pink Salt, 4.6 Oz",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/71-Wzp3EiAL._SL1500_.jpg"
     },
     {
       "asin": "B00654NRG4",
       "name": "Theo Salted Almond Organic Dark Chocolate Bar, 70% Cacao, 1 Bar | Vegan, Fair Trade : Chocolate Candy : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/512t0NCME-L._SL1000_.jpg"
     },
     {
       "asin": "B004T335XI",
       "name": "Theo Mint Organic Dark Chocolate Bar, 70% Cacao, 1 Bar | Vegan, Fair Trade : Natural Organic : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/51K0PFaTcPL._SL1046_.jpg"
     },
     {
       "asin": "B0CC43K5YZ",
       "name": "Icelandic Provisions, Yogurt Skyr Extra Creamy Strawberries Cream, 4.4 Ounce : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/816fvXMgM3L._SL1500_.jpg"
     },
     {
       "asin": "B081DKV9CB",
       "name": "Icelandic Provisions, Yogurt Krimi Low Fat Cold Brew Coffee, 4.4 Ounce : Everything Else",
       "quantity": 8,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/71nSYu5M70L._SL1500_.jpg"
     },
     {
       "asin": "B07QKN3PLS",
       "name": "365 by Whole Foods Market, Organic Strawberry Applesauce Pouches, Unsweetened, 3.2 Ounce (Pack of 4) : Grocery &amp; Gourmet Food",
-      "quantity": 1,
-      "store": "wholefoods"
+      "quantity": 2,
+      "store": "wholefoods",
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/81-m2U4Su7L._SL1500_.jpg"
     },
     {
       "asin": "B00CIAG4CS",
       "name": "Polar Seltzer Raspberry Lime, 12 fl oz (Pack of 12) : Seltzer Drinking Water : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81AWmLjCYxL._SL1500_.jpg"
     },
     {
       "asin": "B085WTGMHQ",
       "name": "KIND Nut Bars, Caramel Almond &amp; Sea Salt, Healthy Snacks, Gluten Free, Low Sugar, 6g Protein, 6 Count : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81BsGas7AxL._SL1500_.jpg"
     },
     {
       "asin": "B07FYYJJDX",
       "name": "PRODUCE Organic Mandarin Bag, 48 OZ : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81aj3JkxZiL._SL1500_.jpg"
     },
     {
       "asin": "B074C7VN2B",
       "name": "Polar Beverage Mango Limeade Seltzer&#x27;ade, 12 fl oz.(Pack of 8) : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81-RKKSq+IL._SL1500_.jpg"
     },
     {
       "asin": "B078HJZR4G",
-      "name": "Bear Yoyo Fruit Roll Rasp Mltpk 3.5 OZ",
-      "quantity": 1,
+      "name": "BEAR Raspberry Fruit Yo Yo&#x27;s 5 Count, .7 OZ",
+      "quantity": 2,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/71YCKGP-79L._SL1500_.jpg"
     },
     {
       "asin": "B007YNPJS4",
       "name": "Theo Sea Salt Organic Dark Chocolate Bar, 70% Cacao, 1 Bar | Vegan, Fair Trade : Candy And Chocolate Covered Fruits : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/71RoWFhRcVL._SL1500_.jpg"
     },
     {
       "asin": "B00WTR0CDM",
       "name": "FAGE Total Greek Yogurt, 5% Whole Milk, Plain, 32 oz : Everything Else",
       "quantity": 2,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/81aXh9dwshL._SL1500_.jpg"
     },
     {
       "asin": "B0BSYGX3DB",
       "name": "Icelandic Provisions, Passion Fruit And Mango Extra Creamy SKYR, 4.4 Ounce : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/71IdcRAbS5L._SL1500_.jpg"
     },
     {
       "asin": "B078BBZM8S",
       "name": "Tortilleria Mi Nina, Chip Tortilla White Corn Sea Salt, 12 Ounce",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/813rjlJdqUL._SL1500_.jpg"
     },
     {
       "asin": "B08DX4JCKQ",
       "name": "Wonderful Pistachios No Shells, 3 Flavors Mixed Variety Pack of 9 (0.75 Ounce), Roasted &amp; Salted Nuts (4), Chili (3), Honey (2), Protein Snacks, Gluten Free, Healthy Snacks Variety Pack for Adults : Everything Else",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/81lqJN0ihpL._SL1500_.jpg"
     },
     {
       "asin": "B078BDLBQT",
       "name": "Tortilleria Mi Nina, Chip Tortilla Jalapeno Agave, 12 Ounce",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/81GwQqmHsIL._SL1500_.jpg"
     },
     {
       "asin": "B0BVGJ2VVP",
       "name": "Babybel Babybel Original 12 Count, 8.5 OZ : Everything Else",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/81EU7qYL3hL._SL1500_.jpg"
     },
     {
       "asin": "B07JZ36HKR",
       "name": "Spindrift, Sparkling Water, Lemon, 12 oz, (pack of 8) : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/711YE+T9PlL._SL1500_.jpg"
     },
     {
       "asin": "B07TLFXQFF",
       "name": "Wonderful Pistachios No Shells, Chili Roasted Nuts, 5.5 Ounce Resealable Bag, Protein Snacks, Gluten Free Travel Snacks, Healthy Snack : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81eGcpq5zhL._SL1500_.jpg"
     },
     {
       "asin": "B085WT6D2D",
-      "name": "KIND Nut Bars, Dark Chocolate Nuts and Sea Salt, Healthy Snacks, Gluten Free, Low Sugar, 6g Protein, 6 Count : Grocery &amp; Gourmet Food",
+      "name": "KIND Healthy Snacks Bars, Dark Chocolate Nuts &amp; Sea Salt, Gluten Free, Low Sugar, High Fiber Snacks, 6g Protein, 6 Count : Grocery &amp; Gourmet Food",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/81AzO1BjxqL._SL1500_.jpg"
     },
     {
       "asin": "B004QWN3WK",
       "name": "Jim’s Organic Coffee – Sweet Nothings Decaf – Light Roast, Whole Bean (12oz) - 100% Arabica Coffee Beans - USDA Organic – Kosher – Swiss Water Process Decaffeinated Coffee Beans : Roasted Coffee Beans : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/51fvkSMgXFL._SL1001_.jpg"
     },
     {
       "asin": "B0767PW9T7",
       "name": "Counter Culture Coffee Slow Motion Decaf - Medium Roast, Organic, Sustainably Farmed, Kosher, Whole Bean Coffee, 12 oz (1 Bag) : Grocery &amp; Gourmet Food",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/819fD6yQ0bL._SL1500_.jpg"
     },
     {
       "asin": "B007WXKY6I",
       "name": "Freixenet Cordon Negro Brut Crava, Sparkling Wine, 750 mL Bottle at Amazon&#x27;s Wine Store",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/61bEh9MbDNL._AC_SL1500_.jpg"
     },
     {
       "asin": "B086HK7TB5",
       "name": "365 by Whole Foods Market, Organic Dry Roasted &amp; Salted Cashews, 10 Ounce : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/41nGko4bGoL.jpg"
     },
     {
       "asin": "B006WBVSV6",
       "name": "FAGE Total Greek Yogurt, 0% Nonfat, Plain, 32 oz : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/81hJLa8c9ML._SL1500_.jpg"
     },
     {
       "asin": "B07QJ7JNFP",
       "name": "365 by Whole Foods Market, Organic Cinnamon Applesauce Pouches, Unsweetened, 3.2 Ounce (Pack of 4) : Grocery &amp; Gourmet Food",
-      "quantity": 1,
+      "quantity": 2,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/81bRMIiKMEL._SL1500_.jpg"
     },
     {
       "asin": "B074VDBQNQ",
       "name": "365 by Whole Foods Market, Roasted And Salted Almonds, 16 Ounce : Cell Phones &amp; Accessories",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/51dfxRv4o5L._SL1000_.jpg"
     },
     {
       "asin": "B0BG75SP1X",
       "name": "Spindrift Sparkling Seltzer Water, Blood Orange Tangerine Flavored, Made with Real Squeezed Fruit, 12 Fluid Ounce Cans, Pack of 8 Cans : Grocery &amp; Gourmet Food",
       "quantity": 2,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/716gtLKFkeL._SL1500_.jpg"
     },
     {
       "asin": "B074H7VQX6",
       "name": "Whole Foods Market, Italian Sparkling Mineral Water 6 Pack, 33.8 Fl Oz : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/61YdOSLHkKL._SL1200_.jpg"
     },
     {
       "asin": "B07QJ7KNJZ",
       "name": "365 by Whole Foods Market, Organic Unsweetened Applesauce Pouches, 3.2 Ounce (Pack of 4) : Grocery &amp; Gourmet Food",
-      "quantity": 1,
-      "store": "wholefoods"
+      "quantity": 2,
+      "store": "wholefoods",
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/61uxzTm-eEL._SL1200_.jpg"
     },
     {
       "asin": "B077W3T2VP",
       "name": "Spindrift Raspberry Lime Sparkling Water, 12 Fl. Oz. Cans (Pack of 8) : Grocery &amp; Gourmet Food",
       "quantity": 2,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/71OYt7H8W0L._SL1500_.jpg"
     },
     {
       "asin": "B00O1NZNRM",
       "name": "Organic Valley Ultra Pasteurized Organic Lactose Free Whole Milk, 64 Oz : Grocery &amp; Gourmet Food",
       "quantity": 1,
       "store": "wholefoods",
-      "staple": true
+      "staple": true,
+      "image": "https://m.media-amazon.com/images/I/71CQo3XSSfL._SL1500_.jpg"
     },
     {
       "asin": "B074H5Z5NV",
       "name": "365 by Whole Foods Market, Organic Thompson Raisins, 8 Ounce : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/51+vrD-pRsL._SL1000_.jpg"
     },
     {
       "asin": "B074Y6TRTV",
       "name": "Whole Foods 365 Everyday Value, Sparkling Water Pure, 12 Count : Everything Else",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/415lCKqv5CL._SL1200_.jpg"
     },
     {
       "asin": "B09V92P5Z9",
       "name": "365 by Whole Foods Market, Hazelnuts, 8 Ounce",
       "quantity": 1,
-      "store": "wholefoods"
+      "store": "wholefoods",
+      "image": "https://m.media-amazon.com/images/I/51x2Me7wLtL._SL1000_.jpg"
     }
   ]
 }
