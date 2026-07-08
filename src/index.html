@@ -1110,8 +1110,6 @@
       }
       orderRun = { state: 'done', results: d.results, diagnostics: d.diagnostics || '', finishedAt: Date.now() };
       try { localStorage.setItem('mlab-last-report', JSON.stringify(orderRun)); } catch {}
-      // Also save to disk (last-diagnostics.json) so Claude can read the logs
-      // directly — no copy-pasting needed.
       if (orderRun.diagnostics) fetch('/diag', { method: 'POST', body: orderRun.diagnostics }).catch(() => {});
 
       // Opportunistic sync: the run fetched every product page anyway.
@@ -1139,7 +1137,7 @@
     function copyDiagnostics() {
       if (!orderRun || !orderRun.diagnostics) return;
       navigator.clipboard.writeText(orderRun.diagnostics).then(
-        () => toast('Diagnostics copied — paste them to Claude'),
+        () => toast('Diagnostics copied'),
         () => toast('Copy failed — diagnostics are in localStorage under mlab-last-report')
       );
     }
@@ -1217,13 +1215,12 @@
       if (updated) { save(); render(); toast(`Updated ${updated} item${updated !== 1 ? 's' : ''}`); }
     }
 
-    // The dragged bookmark IS the engine: a base64 snapshot of bookmarklet.js
-    // taken when this page loaded. It deliberately does NOT script-load from
-    // localhost at click time — whether amazon's CSP blocks that varies by
-    // page, and when it succeeds the code runs in the page's global scope,
-    // where amazon's own globals (it has one literally named `P`) collide.
-    // The eval below runs inside a function, so the engine stays scoped.
-    // The report's version handshake nags to re-drag when the snapshot is stale.
+    // The dragged bookmark is a base64 snapshot of bookmarklet.js taken when
+    // this page loaded. It must not script-load from localhost on amazon.com:
+    // the CSP outcome varies by page, and a successful load runs in global
+    // scope where amazon's own globals (e.g. `P`) collide. The eval below runs
+    // inside a function, so the engine stays scoped. The report's version
+    // handshake nags to re-drag when the snapshot is stale.
     let currentEngineVersion = '';
 
     async function buildBookmarklet() {

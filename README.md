@@ -1,6 +1,10 @@
 <h3 align="center">
-  <img src="https://raw.githubusercontent.com/debbiemarkslab/mlab-groceries/refs/heads/main/logo.png" alt="M'lab Groceries" width="256">
+  <img src="https://raw.githubusercontent.com/debbiemarkslab/mlab-groceries/refs/heads/main/src/logo.png" alt="M'lab Groceries" width="256">
 </h3>
+
+<p align="center">
+  <a href="https://github.com/debbiemarkslab/mlab-groceries/actions/workflows/ci.yml"><img src="https://github.com/debbiemarkslab/mlab-groceries/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+</p>
 
 ## Get started
 

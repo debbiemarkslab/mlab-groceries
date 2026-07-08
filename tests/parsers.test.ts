@@ -1,8 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-// bookmarklet.js is intentionally plain ES5 (it ships verbatim into the
-// browser); its parsing helpers are pure functions exported for testing.
-const { P } = require("../bookmarklet.js");
+const { P } = require("../src/bookmarklet.js");
 
 describe("parsePayload", () => {
 	test("parses asin:qty:store triples", () => {

@@ -5,7 +5,8 @@ import { join } from "node:path";
 import { createServer } from "../server.ts";
 
 const dir = mkdtempSync(join(tmpdir(), "mlab-test-"));
-await Bun.write(join(dir, "index.html"), "<h1>app</h1>");
+await Bun.write(join(dir, "src/index.html"), "<h1>app</h1>");
+await Bun.write(join(dir, "groceries.json"), '{"items":[]}');
 const server = createServer(0, dir);
 afterAll(() => server.stop());
 
@@ -15,8 +16,14 @@ test("serves the app at /", async () => {
 	expect(await res.text()).toBe("<h1>app</h1>");
 });
 
+test("serves groceries.json from the repo root", async () => {
+	const res = await fetch(new URL("/groceries.json", server.url));
+	expect(res.status).toBe(200);
+	expect(await res.text()).toBe('{"items":[]}');
+});
+
 test("POST /save writes groceries.json", async () => {
-	const body = '{"items":[]}';
+	const body = '{"items":[{"asin":"B004T38OCA"}]}';
 	const res = await fetch(new URL("/save", server.url), { method: "POST", body });
 	expect(res.status).toBe(200);
 	expect(await Bun.file(join(dir, "groceries.json")).text()).toBe(body);

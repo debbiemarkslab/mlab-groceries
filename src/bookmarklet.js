@@ -826,7 +826,7 @@
 		const cartUrl = `https://www.amazon.com/cart/localmarket?almBrandId=${ALM_BRAND_IDS[stores[0]]}`;
 		footButton("Copy diagnostics", () => {
 			(navigator.clipboard ? navigator.clipboard.writeText(diagStr) : Promise.reject()).then(
-				() => setStatus("Diagnostics copied — paste them to Claude."),
+				() => setStatus("Diagnostics copied."),
 				() => prompt("Copy this:", diagStr.substring(0, 2000)),
 			);
 		});
