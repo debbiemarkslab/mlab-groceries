@@ -35,6 +35,6 @@ Fork the repo, add your items to `groceries.json`, and open a pull request.
 1. Select items and click "Add to Cart"
 2. Click the "Add Groceries" bookmarklet (opens each product on Amazon/Whole Foods and adds it to cart)
 
-When done, the Whole Foods cart will be open and ready to place the order.
+When done, the Whole Foods cart will be open and ready for the order to be placed.
 
 
